@@ -49,20 +49,21 @@ const Dashboard: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState<string | undefined>('');
 
   const navigation = useNavigation();
 
   async function handleNavigate(id: number): Promise<void> {
     // Navigate do ProductDetails page
-    // navigation.navigate('ProductDetails', { id });
+    navigation.navigate('FoodDetails', { id });
   }
 
   useEffect(() => {
     async function loadFoods(): Promise<void> {
       // Load Foods from API
       const category_like = selectedCategory;
-      const name_like = searchValue;
+      const name_like = searchValue !== '' ? searchValue : undefined;
+
       const { data } = await api.get<Food[]>('/foods', {
         params: {
           category_like,
